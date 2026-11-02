@@ -1,0 +1,74 @@
+---
+import { bairros, cidades } from "../data/site";
+import Icone from "./Icone.astro";
+
+const centro = { x: 200, y: 150 };
+const destinos = [
+  { nome: "Pinhais", x: 300, y: 92 },
+  { nome: "São José dos Pinhais", x: 312, y: 214 },
+  { nome: "Araucária", x: 82, y: 222 },
+];
+const caminho = (d: { x: number; y: number }) => {
+  const cx = (centro.x + d.x) / 2;
+  const cy = Math.min(centro.y, d.y) - 40;
+  return `M${centro.x} ${centro.y} Q${cx} ${cy} ${d.x} ${d.y}`;
+};
+---
+
+<section class="bg-navy text-white">
+  <div class="mx-auto grid max-w-6xl items-center gap-8 px-5 py-16 md:grid-cols-2 md:gap-14 md:px-8 md:py-32">
+    <div data-revelar>
+      <p class="text-sm font-semibold uppercase tracking-[0.18em] text-ambar">Área atendida</p>
+      <h2 class="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-tight tracking-tight">Curitiba e região metropolitana</h2>
+      <p class="mt-5 max-w-md text-white/70">Foco total na região: atendimento rápido e rota otimizada.</p>
+      <ul class="mt-8 flex flex-wrap gap-2.5">
+        {
+          cidades.map((cidade) => (
+            <li class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-2 text-sm">
+              <Icone nome="pin" class="size-4 text-ambar" />
+              {cidade}
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-8 text-sm text-white/50">Em Curitiba, bairros como</p>
+      <ul class="mt-3 flex flex-wrap gap-2">
+        {bairros.map((bairro) => <li class="rounded-full bg-white/5 px-3 py-1 text-xs text-white/70">{bairro}</li>)}
+      </ul>
+    </div>
+
+    <div data-revelar data-atraso="0.12">
+      <svg viewBox="0 0 400 300" class="w-full" role="img" aria-label="Rotas de Curitiba para Pinhais, São José dos Pinhais e Araucária" data-mapa>
+        <defs>
+          <radialGradient id="brilho-centro">
+            <stop offset="0" stop-color="#f59e0b" stop-opacity="0.45"></stop>
+            <stop offset="1" stop-color="#f59e0b" stop-opacity="0"></stop>
+          </radialGradient>
+        </defs>
+        <circle cx={centro.x} cy={centro.y} r="90" fill="url(#brilho-centro)"></circle>
+        {destinos.map((d) => <path d={caminho(d)} fill="none" stroke="rgb(255 255 255 / 0.18)" stroke-width="2" />)}
+        {destinos.map((d) => <path class="rota" d={caminho(d)} fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" />)}
+        {
+          destinos.map((d, i) => (
+            <circle r="4" fill="#fff">
+              <animateMotion dur={`${3.6 + i * 0.5}s`} begin={`${i * 0.9}s`} repeatCount="indefinite" path={caminho(d)} />
+              <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur={`${3.6 + i * 0.5}s`} begin={`${i * 0.9}s`} repeatCount="indefinite" />
+            </circle>
+          ))
+        }
+        {
+          destinos.map((d) => (
+            <g>
+              <circle cx={d.x} cy={d.y} r="6" fill="#0b1b3b" stroke="#f59e0b" stroke-width="2" />
+              <text x={d.x} y={d.y + 24} text-anchor="middle" fill="rgb(255 255 255 / 0.75)" font-size="14">
+                {d.nome}
+              </text>
+            </g>
+          ))
+        }
+        <circle cx={centro.x} cy={centro.y} r="10" fill="#f59e0b"></circle>
+        <text x={centro.x} y={centro.y - 20} text-anchor="middle" fill="#fff" font-size="16" font-weight="600">Curitiba</text>
+      </svg>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #0b1b3b;
+  --color-noite: #060f24;
+  --color-ambar: #f59e0b;
+  --color-wpp: #25d366;
+  --color-tinta: #0b1220;
+  --color-papel: #f5f3ee;
+  --font-display: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--color-papel);
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-ambar);
+  color: var(--color-noite);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ambar);
+  outline-offset: 3px;
+}
+
+.js [data-revelar] {
+  opacity: 0;
+}
+
+.js [data-caminhao] {
+  opacity: 0;
+}
+
+.js.revelado [data-revelar],
+.js.revelado [data-caminhao] {
+  opacity: 1;
+}
+
+.fundo-abertura {
+  background:
+    radial-gradient(120% 80% at 80% 10%, rgb(245 158 11 / 0.22), transparent 55%),
+    radial-gradient(90% 70% at 10% 90%, rgb(37 99 235 / 0.18), transparent 60%),
+    linear-gradient(160deg, #0b1b3b 0%, #060f24 70%);
+}
+
+.cartao {
+  --rx: 0deg;
+  --ry: 0deg;
+  --mx: 50%;
+  --my: 50%;
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+
+.cartao[data-ativo] {
+  transition: transform 0.08s linear, box-shadow 0.4s ease;
+}
+
+.cartao::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(240px circle at var(--mx) var(--my), rgb(245 158 11 / 0.16), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.cartao:hover::after {
+  opacity: 1;
+}
+
+.pulso {
+  animation: pulso 2.2s ease-out infinite;
+}
+
+@keyframes pulso {
+  0% {
+    box-shadow: 0 0 0 0 rgb(245 158 11 / 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgb(245 158 11 / 0);
+  }
+}
+
+.rota {
+  stroke-dasharray: 6 10;
+  animation: rota 1.6s linear infinite;
+}
+
+@keyframes rota {
+  to {
+    stroke-dashoffset: -32;
+  }
+}
+
+.descer {
+  animation: descer 1.8s ease-in-out infinite;
+}
+
+@keyframes descer {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js [data-revelar],
+  .js [data-caminhao] {
+    opacity: 1;
+  }
+
+  .pulso,
+  .rota,
+  .descer {
+    animation: none;
+  }
+
+  .cartao {
+    transition: none;
+  }
+}

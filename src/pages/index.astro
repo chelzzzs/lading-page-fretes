@@ -1,0 +1,26 @@
+---
+import Abertura from "../components/Abertura.astro";
+import Area from "../components/Area.astro";
+import BotaoFixo from "../components/BotaoFixo.astro";
+import Orcamento from "../components/Orcamento.astro";
+import Rodape from "../components/Rodape.astro";
+import Servicos from "../components/Servicos.astro";
+import Topo from "../components/Topo.astro";
+import Base from "../layouts/Base.astro";
+---
+
+<Base>
+  <Topo />
+  <main>
+    <Abertura />
+    <Servicos />
+    <Area />
+    <Orcamento />
+  </main>
+  <Rodape />
+  <BotaoFixo />
+</Base>
+
+<script>
+  import "../scripts/movimento";
+</script>

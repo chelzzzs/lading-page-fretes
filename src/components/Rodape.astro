@@ -1,0 +1,28 @@
+---
+import { horarios, site } from "../data/site";
+import { linkWhatsApp, mensagemPadrao } from "../lib/whatsapp";
+import Icone from "./Icone.astro";
+---
+
+<footer class="bg-noite pb-28 text-white md:pb-0">
+  <div class="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-14 md:flex-row md:items-center md:justify-between md:px-8">
+    <div class="flex items-start gap-3">
+      <span class="grid h-10 min-w-10 place-items-center rounded-xl bg-ambar px-2 font-display text-xs font-bold tracking-tight text-noite">{site.sigla}</span>
+      <div class="leading-tight">
+        <p class="font-display font-semibold">{site.nome}</p>
+        <p class="text-sm text-white/55">{site.regiao}</p>
+        {horarios.map((h) => <p class="mt-1 text-sm text-white/55">{h.dias}: {h.horas}</p>)}
+      </div>
+    </div>
+    <a
+      href={linkWhatsApp(mensagemPadrao())}
+      class="inline-flex items-center justify-center gap-2.5 rounded-full border border-white/15 px-6 py-3 font-semibold transition-colors hover:bg-white/10"
+    >
+      <Icone nome="whatsapp" class="size-4 text-wpp" />
+      Falar no WhatsApp
+    </a>
+  </div>
+  <p class="mx-auto max-w-6xl border-t border-white/10 px-5 py-6 text-xs text-white/40 md:px-8">
+    © <span data-ano>{new Date().getFullYear()}</span> · Atendimento mediante disponibilidade. Orçamentos pelo WhatsApp.
+  </p>
+</footer>

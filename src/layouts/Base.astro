@@ -1,0 +1,55 @@
+---
+import "@fontsource-variable/inter";
+import "@fontsource-variable/space-grotesk";
+import "../styles/global.css";
+import { cidades, horarios, site } from "../data/site";
+
+const canonico = new URL(Astro.url.pathname, Astro.site).href;
+const imagem = new URL("/og.png", Astro.site).href;
+
+const dadosEstruturados = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: site.nomeCompleto,
+  url: site.url,
+  image: imagem,
+  telephone: site.telefone,
+  areaServed: cidades,
+  openingHoursSpecification: horarios.map((h) => ({ "@type": "OpeningHoursSpecification", dayOfWeek: h.schema, opens: h.abre, closes: h.fecha })),
+  description: "Fretes, cargas rápidas e pequenas mudanças em Curitiba e Região Metropolitana com caminhão HR. Orçamento via WhatsApp.",
+  serviceType: ["Frete", "Mudança", "Transporte de cargas", "Logística local"],
+  address: { "@type": "PostalAddress", addressLocality: "Curitiba", addressRegion: "PR", addressCountry: "BR" },
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{site.titulo}</title>
+    <meta name="description" content={site.descricao} />
+    <link rel="canonical" href={canonico} />
+    <meta name="theme-color" content="#0b1b3b" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content="CCLM Transportes | Fretes e Mudanças em Curitiba" />
+    <meta property="og:description" content="Segurança e pontualidade. Solicite orçamento direto no WhatsApp." />
+    <meta property="og:url" content={canonico} />
+    <meta property="og:image" content={imagem} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>
+      document.documentElement.classList.add("js");
+      setTimeout(function () {
+        document.documentElement.classList.add("revelado");
+      }, 3000);
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(dadosEstruturados)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

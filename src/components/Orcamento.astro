@@ -1,0 +1,84 @@
+---
+import { dicas, horarios, site, tiposServico } from "../data/site";
+import Icone from "./Icone.astro";
+
+const campo =
+  "w-full rounded-2xl border border-tinta/10 bg-papel/60 px-4 py-3 text-base outline-none transition-colors placeholder:text-tinta/35 focus:border-ambar focus:bg-white";
+const rotulo = "mb-1.5 block text-sm font-medium text-tinta/70";
+---
+
+<section id="orcamento" class="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-[1fr_1.1fr] md:gap-14 md:px-8 md:py-32">
+  <div data-revelar>
+    <p class="text-sm font-semibold uppercase tracking-[0.18em] text-ambar">Orçamento</p>
+    <h2 class="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-tight tracking-tight">Peça em minutos</h2>
+    <p class="mt-5 max-w-md text-tinta/65">Preencha e envie direto no WhatsApp. Quanto mais detalhes, mais rápido sai o valor.</p>
+
+    <ul class="mt-8 grid gap-4 md:mt-10">
+      {
+        dicas.map((dica) => (
+          <li class="flex items-start gap-3">
+            <span class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-ambar/15 text-ambar">
+              <Icone nome="check" class="size-3.5" />
+            </span>
+            <span>
+              <span class="font-semibold">{dica.titulo}</span>
+              <span class="text-tinta/55"> · {dica.texto}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-8 flex items-start gap-3 rounded-2xl md:mt-10 border border-tinta/10 bg-white/60 p-5">
+      <Icone nome="relogio" class="mt-0.5 size-5 shrink-0 text-ambar" />
+      <div class="text-sm">
+        <p class="font-semibold">Horário de atendimento</p>
+        {horarios.map((h) => (
+          <p class="mt-1 text-tinta/60">
+            {h.dias}: <span class="text-tinta">{h.horas}</span>
+          </p>
+        ))}
+        <p class="mt-2 text-tinta/60">WhatsApp {site.telefoneVisivel}</p>
+      </div>
+    </div>
+  </div>
+
+  <div data-revelar data-atraso="0.1">
+    <form class="rounded-[2rem] bg-white p-5 shadow-[0_30px_80px_-40px_rgb(11_27_59/0.45)] ring-1 ring-tinta/5 sm:p-8" data-formulario novalidate>
+      <div class="grid gap-5 sm:grid-cols-2">
+        <label class="sm:col-span-2">
+          <span class={rotulo}>Seu nome</span>
+          <input class={campo} name="nome" autocomplete="name" placeholder="Ex.: Ana Souza" required />
+        </label>
+        <label class="sm:col-span-2">
+          <span class={rotulo}>Tipo de serviço</span>
+          <select class={campo} name="tipo" required>
+            <option value="">Selecione…</option>
+            {tiposServico.map((tipo) => <option>{tipo}</option>)}
+          </select>
+        </label>
+        <label>
+          <span class={rotulo}>Origem</span>
+          <input class={campo} name="origem" placeholder="Ex.: Centro, Curitiba" required />
+        </label>
+        <label>
+          <span class={rotulo}>Destino</span>
+          <input class={campo} name="destino" placeholder="Ex.: São José dos Pinhais" required />
+        </label>
+        <label class="sm:col-span-2">
+          <span class={rotulo}>Detalhes <span class="text-tinta/40">(opcional)</span></span>
+          <textarea class={`${campo} min-h-28 resize-y`} name="detalhes" placeholder="Ex.: 1 sofá e 1 geladeira, 2º andar sem elevador"></textarea>
+        </label>
+      </div>
+      <p class="mt-4 hidden text-sm text-red-600" data-erro role="alert">Preencha nome, tipo, origem e destino.</p>
+      <button
+        type="submit"
+        class="mt-6 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-wpp px-7 py-4 font-semibold text-noite transition-transform hover:-translate-y-0.5"
+      >
+        <Icone nome="whatsapp" />
+        Enviar no WhatsApp
+      </button>
+      <p class="mt-3 text-center text-xs text-tinta/45">Você vai para o WhatsApp com a mensagem pronta.</p>
+    </form>
+  </div>
+</section>

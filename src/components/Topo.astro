@@ -1,0 +1,24 @@
+---
+import { site } from "../data/site";
+import { linkWhatsApp, mensagemPadrao } from "../lib/whatsapp";
+import Icone from "./Icone.astro";
+---
+
+<header class="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-noite/80 text-white" data-topo>
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3 md:px-8">
+    <a href="#" class="flex items-center gap-3" aria-label={`${site.nome}, início`}>
+      <span class="grid h-10 min-w-10 place-items-center rounded-xl bg-ambar px-2 font-display text-xs font-bold tracking-tight text-noite">{site.sigla}</span>
+      <span class="leading-tight">
+        <span class="block font-display text-[0.95rem] font-semibold">{site.nome}</span>
+        <span class="block text-xs text-white/60">{site.slogan}</span>
+      </span>
+    </a>
+    <a
+      href={linkWhatsApp(mensagemPadrao())}
+      class="hidden items-center gap-2 rounded-full bg-wpp px-4 py-2 text-sm font-semibold text-noite transition-transform hover:-translate-y-0.5 sm:flex"
+    >
+      <Icone nome="whatsapp" class="size-4" />
+      Orçamento
+    </a>
+  </div>
+</header>
